@@ -18,7 +18,8 @@ async function init() {
       /^data:image\/(png|jpeg|jpg);base64,/,
       ''
     )
-    rustApp.grayscale(base64)
+    const imgDataUrl = rustApp.grayscale(base64)
+    document.getElementById('new-img').setAttribute('src', imgDataUrl)
   }
 
   input.addEventListener('change', () => {
