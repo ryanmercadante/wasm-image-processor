@@ -5,12 +5,16 @@ export interface ActionsContainerProps {
   blur(): void
   grayscale(): void
   brighten(value: number): void
+  flipH(): void
+  rotate90(): void
 }
 
 export const ActionsContainer = ({
   blur,
   grayscale,
   brighten,
+  flipH,
+  rotate90,
 }: ActionsContainerProps) => {
   return (
     <div className='border border-pink-600 p-3 rounded-md'>
@@ -19,6 +23,8 @@ export const ActionsContainer = ({
       <Button onClick={blur}>Blur</Button>
       <Button onClick={() => brighten(3)}>Brighten</Button>
       <Button onClick={() => brighten(-3)}>Darken</Button>
+      <Button onClick={flipH}>Flip</Button>
+      <Button onClick={rotate90}>Rotate 90°</Button>
     </div>
   )
 }

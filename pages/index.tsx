@@ -78,6 +78,22 @@ export default function Home() {
     setIsLoading(false)
   }
 
+  function flipH() {
+    if (!wasm) return
+
+    const imageDataUrl = wasm.fliph(getBase64())
+    setTransformedImageSrc(imageDataUrl as string)
+    setIsLoading(false)
+  }
+
+  function rotate90() {
+    if (!wasm) return
+
+    const imageDataUrl = wasm.rotate90(getBase64())
+    setTransformedImageSrc(imageDataUrl as string)
+    setIsLoading(false)
+  }
+
   async function initWasm() {
     let rustApp = null
 
@@ -135,6 +151,8 @@ export default function Home() {
                 grayscale={grayscale}
                 blur={blur}
                 brighten={brighten}
+                flipH={flipH}
+                rotate90={rotate90}
               />
             )}
           </div>

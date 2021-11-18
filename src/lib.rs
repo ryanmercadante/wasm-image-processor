@@ -36,6 +36,26 @@ pub fn brighten(encoded_file: &str, value: i32) -> String {
     format_image(encoded_img)
 }
 
+#[wasm_bindgen]
+pub fn fliph(encoded_file: &str) -> String {
+    let mut img = decode_and_load(encoded_file);
+    img = img.fliph();
+    log(&"FlipH effect applied".into());
+
+    let encoded_img = encode_image(&img);
+    format_image(encoded_img)
+}
+
+#[wasm_bindgen]
+pub fn rotate90(encoded_file: &str) -> String {
+    let mut img = decode_and_load(encoded_file);
+    img = img.rotate90();
+    log(&"Rotate90 effect applied".into());
+
+    let encoded_img = encode_image(&img);
+    format_image(encoded_img)
+}
+
 fn decode_and_load(encoded_file: &str) -> DynamicImage {
     let base64_to_vector = decode(encoded_file).unwrap();
     let img = load_from_memory(&base64_to_vector).unwrap();

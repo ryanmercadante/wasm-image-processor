@@ -11,7 +11,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       {...rest}
-      className='flex justify-center items-center bg-pink-600 py-3 w-full mb-3 text-white cursor-pointer font-bold rounded-md shadow-md lg:w-full lg:py-3'
+      className='flex justify-center items-center bg-pink-600 py-2 w-full mb-3 text-white cursor-pointer font-bold rounded-md shadow-md'
       onClick={onClick}
     >
       {children}
