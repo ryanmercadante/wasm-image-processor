@@ -8,9 +8,11 @@ import {
   useRef,
   useState,
 } from 'react'
+import { Button } from '../components/Button'
 
 interface RustApp {
   grayscale(encoded_file: string): string
+  blur(encoded_file: string, sigma: number): string
 }
 
 export default function Home() {
@@ -19,6 +21,7 @@ export default function Home() {
   const [imageSrc, setImageSrc] = useState('')
   const [transformedImageSrc, setTransformedImageSrc] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  // const [] = useState()
   const [wasm, setWasm] = useState<RustApp | null>(null)
 
   const renderImage = useMemo(() => {
@@ -50,7 +53,7 @@ export default function Home() {
     }
   }
 
-  function transformImage() {
+  function grayscaleImage() {
     setIsLoading(true)
     const fileReader = new FileReader()
     fileReader.readAsDataURL(fileInputRef?.current?.files?.[0] as Blob)
@@ -60,6 +63,29 @@ export default function Home() {
       const imageDataUrl = wasm?.grayscale(base64)
       setIsLoading(false)
       setTransformedImageSrc(imageDataUrl as string)
+    }
+  }
+
+  function blurImage() {
+    setIsLoading(true)
+    if (transformedImageSrc) {
+      const base64 = transformedImageSrc.replace(
+        /^data:image\/(png|jpeg|jpg);base64,/,
+        ''
+      )
+      const imageDataUrl = wasm?.blur(base64, 3)
+      setIsLoading(false)
+      setTransformedImageSrc(imageDataUrl as string)
+    } else {
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(fileInputRef?.current?.files?.[0] as Blob)
+      fileReader.onloadend = () => {
+        const result = fileReader?.result as string
+        const base64 = result.replace(/^data:image\/(png|jpeg|jpg);base64,/, '')
+        const imageDataUrl = wasm?.grayscale(base64)
+        setIsLoading(false)
+        setTransformedImageSrc(imageDataUrl as string)
+      }
     }
   }
 
@@ -110,12 +136,8 @@ export default function Home() {
               />
               Upload PNG Image
             </label>
-            <button
-              className='flex justify-center items-center bg-pink-600 py-4 mx-4 text-white cursor-pointer font-bold rounded-md shadow-md lg:px-8 lg:py-4'
-              onClick={transformImage}
-            >
-              Transform Image
-            </button>
+            <Button onClick={grayscaleImage}>Grayscale Image</Button>
+            <Button onClick={blurImage}>Blur Image</Button>
           </div>
           <div className='grid grid-cols-1 gap-2 lg:grid-cols-2 lg:max-w-6xl lg:mx-auto'>
             <div className='p-4'>{renderImage}</div>

@@ -134,6 +134,26 @@ export function grayscale(encoded_file) {
     }
 }
 
+/**
+* @param {string} encoded_file
+* @param {number} sigma
+* @returns {string}
+*/
+export function blur(encoded_file, sigma) {
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        var ptr0 = passStringToWasm0(encoded_file, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        var len0 = WASM_VECTOR_LEN;
+        wasm.blur(retptr, ptr0, len0, sigma);
+        var r0 = getInt32Memory0()[retptr / 4 + 0];
+        var r1 = getInt32Memory0()[retptr / 4 + 1];
+        return getStringFromWasm0(r0, r1);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_free(r0, r1);
+    }
+}
+
 function logError(f, args) {
     try {
         return f.apply(this, args);
