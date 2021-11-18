@@ -118,8 +118,10 @@ export default function Home() {
           </label>
         </div>
         <div className='grid grid-cols-1 gap-2 lg:grid-cols-3 lg:max-w-6xl lg:mx-auto'>
-          <div className='p-4'>{renderImage()}</div>
-          <div className='p-4'>
+          <div className='p-4 flex items-center justify-center'>
+            {renderImage()}
+          </div>
+          <div className='p-4 flex items-center justify-center'>
             {imageSrc && <ActionsContainer grayscale={grayscale} blur={blur} />}
           </div>
           <div className='p-4 flex items-center justify-center'>
