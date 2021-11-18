@@ -121,7 +121,7 @@ export default function Home() {
           <div className='p-4 flex items-center justify-center'>
             {renderImage()}
           </div>
-          <div className='p-4 flex items-center justify-center'>
+          <div className='p-4'>
             {imageSrc && <ActionsContainer grayscale={grayscale} blur={blur} />}
           </div>
           <div className='p-4 flex items-center justify-center'>
