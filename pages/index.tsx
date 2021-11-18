@@ -70,6 +70,14 @@ export default function Home() {
     setIsLoading(false)
   }
 
+  function brighten(value: number) {
+    if (!wasm) return
+
+    const imageDataUrl = wasm.brighten(getBase64(), value)
+    setTransformedImageSrc(imageDataUrl as string)
+    setIsLoading(false)
+  }
+
   async function initWasm() {
     let rustApp = null
 
@@ -122,7 +130,13 @@ export default function Home() {
             {renderImage()}
           </div>
           <div className='p-4'>
-            {imageSrc && <ActionsContainer grayscale={grayscale} blur={blur} />}
+            {imageSrc && (
+              <ActionsContainer
+                grayscale={grayscale}
+                blur={blur}
+                brighten={brighten}
+              />
+            )}
           </div>
           <div className='p-4 flex items-center justify-center'>
             {isLoading ? renderLoadingMessage() : renderTransformedImage()}

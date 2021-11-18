@@ -13,9 +13,7 @@ pub fn grayscale(encoded_file: &str) -> String {
     log(&"Grayscale effect applied".into());
 
     let encoded_img = encode_image(&img);
-    let data_url = format!("data:image/png;base64,{}", encoded_img);
-
-    data_url
+    format_image(encoded_img)
 }
 
 #[wasm_bindgen]
@@ -25,9 +23,17 @@ pub fn blur(encoded_file: &str, sigma: f32) -> String {
     log(&"Blur effect applied".into());
 
     let encoded_img = encode_image(&img);
-    let data_url = format!("data:image/png;base64,{}", encoded_img);
+    format_image(encoded_img)
+}
 
-    data_url
+#[wasm_bindgen]
+pub fn brighten(encoded_file: &str, value: i32) -> String {
+    let mut img = decode_and_load(encoded_file);
+    img = img.brighten(value);
+    log(&"Brighten effect applied".into());
+
+    let encoded_img = encode_image(&img);
+    format_image(encoded_img)
 }
 
 fn decode_and_load(encoded_file: &str) -> DynamicImage {
@@ -43,4 +49,10 @@ fn encode_image(img: &DynamicImage) -> String {
     log(&"New image written".into());
 
     encode(&buffer)
+}
+
+fn format_image(img: String) -> String {
+    let data_url = format!("data:image/png;base64,{}", img);
+
+    data_url
 }
